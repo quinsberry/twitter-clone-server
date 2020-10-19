@@ -1,0 +1,1 @@
+export { UserCtrl } from "./UserController";
