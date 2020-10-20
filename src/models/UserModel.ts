@@ -12,7 +12,7 @@ export interface UserModelInterface {
   website?: string;
 }
 
-type UserDocumentModalInterface = UserModelInterface & Document;
+export type UserDocumentModalInterface = UserModelInterface & Document;
 
 const UserSchema = new Schema<UserModelInterface>({
   email: {
@@ -44,6 +44,14 @@ const UserSchema = new Schema<UserModelInterface>({
   location: String,
   about: String,
   website: String,
+});
+
+UserSchema.set("toJSON", {
+  transform: function (_, obj) {
+    delete obj.password;
+    delete obj.confirmHash;
+    return obj;
+  },
 });
 
 export const UserModel = model<UserDocumentModalInterface>("User", UserSchema);
