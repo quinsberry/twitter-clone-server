@@ -2,9 +2,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 
-import { UserModel } from "../models";
 import { generateMD5 } from "../utils/generate-hash";
-import { UserDocumentModalInterface } from "../models/UserModel";
+import { UserModel, UserDocumentModelInterface } from "../models/UserModel";
 
 passport.use(
   new LocalStrategy(function (username, password, done) {
@@ -54,14 +53,14 @@ passport.use(
   )
 );
 
-passport.serializeUser<UserDocumentModalInterface, string>(function (
+passport.serializeUser<UserDocumentModelInterface, string>(function (
   user,
   done
 ) {
   done(null, user._id);
 });
 
-passport.deserializeUser<UserDocumentModalInterface, string>(function (
+passport.deserializeUser<UserDocumentModelInterface, string>(function (
   id,
   done
 ) {

@@ -5,10 +5,10 @@ import jwt from "jsonwebtoken";
 import { generateMD5 } from "../utils/generate-hash";
 import { sendEmail } from "../utils/sendEmail";
 
-import { UserModel } from "../models";
 import {
+  UserModel,
   UserModelInterface,
-  UserDocumentModalInterface,
+  UserDocumentModelInterface,
 } from "../models/UserModel";
 
 class UserController {
@@ -159,7 +159,7 @@ class UserController {
 
   async getUserInfo(req: Request, res: Response): Promise<void> {
     try {
-      const user = (req.user as UserDocumentModalInterface)?.toJSON();
+      const user = (req.user as UserDocumentModelInterface)?.toJSON();
       res.status(200).json({
         status: "success",
         data: user,
@@ -174,7 +174,7 @@ class UserController {
 
   async afterLogin(req: Request, res: Response): Promise<void> {
     try {
-      const user = (req.user as UserDocumentModalInterface)?.toJSON();
+      const user = (req.user as UserDocumentModelInterface)?.toJSON();
       res.status(200).json({
         status: "success",
         data: {

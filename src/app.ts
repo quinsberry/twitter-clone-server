@@ -3,12 +3,11 @@ dotenv.config();
 
 import express from "express";
 
-import { UserCtrl } from "./controllers";
-import { registerValidations } from "./validations";
+import { UserCtrl, TweetsCtrl } from "./controllers";
+import { registerValidations, tweetsValidations } from "./validations";
 
 import "./core/db";
 import { passport } from "./core/passport";
-import { session } from "passport";
 
 const app = express();
 
@@ -22,11 +21,20 @@ app.get(
   UserCtrl.getUserInfo
 );
 app.get("/users/:id", UserCtrl.show);
+
 app.post("/auth/signup", registerValidations, UserCtrl.create);
 app.get("/auth/verify", UserCtrl.verify);
-// app.patch("/users", UserCtrl.update);
-// app.delete("/users", UserCtrl.delete);
 app.post("/auth/signin", passport.authenticate("local"), UserCtrl.afterLogin);
+
+app.get("/tweets", TweetsCtrl.index);
+app.get("/tweets/:id", TweetsCtrl.show);
+app.delete("/tweets/:id", passport.authenticate("jwt"), TweetsCtrl.delete);
+app.post(
+  "/tweets",
+  passport.authenticate("jwt"),
+  tweetsValidations,
+  TweetsCtrl.create
+);
 
 const PORT: number = process.env.PORT ? Number(process.env.PORT) : 3001;
 

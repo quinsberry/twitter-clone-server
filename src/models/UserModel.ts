@@ -12,7 +12,7 @@ export interface UserModelInterface {
   website?: string;
 }
 
-export type UserDocumentModalInterface = UserModelInterface & Document;
+export type UserDocumentModelInterface = UserModelInterface & Document;
 
 const UserSchema = new Schema<UserModelInterface>({
   email: {
@@ -54,4 +54,4 @@ UserSchema.set("toJSON", {
   },
 });
 
-export const UserModel = model<UserDocumentModalInterface>("User", UserSchema);
+export const UserModel = model<UserDocumentModelInterface>("User", UserSchema);
