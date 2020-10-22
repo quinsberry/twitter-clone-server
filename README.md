@@ -6,21 +6,31 @@ Twitter Clone backend part. </br>
 </br>
 
 **Technologies:** NodeJS, MongoDB, Express, Typescript </br>
-**Libraries:** Express Validator, Mongoose, Passport, JWT, Multer, Cloudinary, Nodemailer
+**Libraries:** Express Validator, Mongoose, Passport, JWT, Multer, Cloudinary, Nodemailer </br>
+**Testing:** Jest
 
 ## Installation
 
 1. `npm install`
 2. Create `.env` file by `cp .env.example .env` command.
 3. Install MongoDB if you didn't do that yet.
-4. `npm start`
 
 ## Running the app
 
 ```bash
-# development
+# development mode
 $ npm run dev
 
 # production mode
+# before start you need to build the app
 $ npm run start
+
+# build
+$ npm run build
+
+# test
+$ npm run test
+
+# coverage
+$ npm run test:cov
 ```

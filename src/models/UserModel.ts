@@ -5,7 +5,7 @@ export interface UserModelInterface {
   fullname: string;
   username: string;
   password: string;
-  confirmHash: string;
+  confirmHash?: string;
   confirmed?: boolean;
   location?: string;
   about?: string;

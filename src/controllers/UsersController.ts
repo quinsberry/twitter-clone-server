@@ -11,7 +11,7 @@ import {
   UserDocumentModelInterface,
 } from "../models/UserModel";
 
-class UserController {
+class UsersController {
   async index(req: Request, res: Response): Promise<void> {
     try {
       UserModel.find({}, (err, users) => {
@@ -193,4 +193,4 @@ class UserController {
   }
 }
 
-export const UserCtrl = new UserController();
+export const UsersCtrl = new UsersController();
