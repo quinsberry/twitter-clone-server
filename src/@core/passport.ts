@@ -2,8 +2,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 
-import { generateMD5 } from "../utils/generate-hash";
-import { UserModel, UserDocumentModelInterface } from "../models/UserModel";
+import { generateMD5 } from "../@utils/generate-hash";
+import { UserModel, UserDocumentModelInterface } from "../@models/UserModel";
 
 passport.use(
   new LocalStrategy(function (username, password, done) {

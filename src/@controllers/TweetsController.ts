@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { UserDocumentModelInterface } from "models/UserModel";
 
-import { TweetModel, TweetModelInterface } from "../models/TweetModel";
+import { UserDocumentModelInterface } from "../@models/UserModel";
+import { TweetModel, TweetModelInterface } from "../@models/TweetModel";
 
 class TweetsController {
   async index(req: Request, res: Response): Promise<void> {
@@ -138,6 +138,50 @@ class TweetsController {
             status: "success",
           });
         });
+      }
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        errors: error,
+      });
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<void> {
+    const user = req.user as UserDocumentModelInterface;
+
+    try {
+      if (user) {
+        const tweetId = req.params.id;
+        const newText = req.body.text;
+
+        const existedTweet = await TweetModel.findById(tweetId).exec();
+
+        if (!existedTweet) {
+          res.status(404).json({
+            status: "error",
+            errors: "Tweet has not found",
+          });
+          return;
+        }
+
+        if (String(existedTweet.user) !== String(user._id)) {
+          res.status(403).json({
+            status: "error",
+            errors: "Cannot edit tweet created by other person",
+          });
+          return;
+        }
+
+        TweetModel.updateOne(
+          { _id: tweetId },
+          { text: newText },
+          (err, doc) => {
+            res.status(200).json({
+              status: "success",
+            });
+          }
+        );
       }
     } catch (error) {
       res.status(500).json({

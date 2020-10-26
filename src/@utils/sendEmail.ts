@@ -1,4 +1,4 @@
-import { mailer } from "../core/mailer";
+import { mailer } from "../@core/mailer";
 import { SentMessageInfo } from "nodemailer/lib/sendmail-transport";
 
 interface SendEmailProps {

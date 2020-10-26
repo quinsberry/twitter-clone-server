@@ -14,37 +14,40 @@ export interface UserModelInterface {
 
 export type UserDocumentModelInterface = UserModelInterface & Document;
 
-const UserSchema = new Schema<UserModelInterface>({
-  email: {
-    unique: true,
-    required: true,
-    type: String,
+const UserSchema = new Schema<UserModelInterface>(
+  {
+    email: {
+      unique: true,
+      required: true,
+      type: String,
+    },
+    fullname: {
+      required: true,
+      type: String,
+    },
+    username: {
+      unique: true,
+      required: true,
+      type: String,
+    },
+    password: {
+      required: true,
+      type: String,
+    },
+    confirmed: {
+      type: Boolean,
+      default: false,
+    },
+    confirmHash: {
+      required: true,
+      type: String,
+    },
+    location: String,
+    about: String,
+    website: String,
   },
-  fullname: {
-    required: true,
-    type: String,
-  },
-  username: {
-    unique: true,
-    required: true,
-    type: String,
-  },
-  password: {
-    required: true,
-    type: String,
-  },
-  confirmed: {
-    type: Boolean,
-    default: false,
-  },
-  confirmHash: {
-    required: true,
-    type: String,
-  },
-  location: String,
-  about: String,
-  website: String,
-});
+  { timestamps: true }
+);
 
 UserSchema.set("toJSON", {
   transform: function (_, obj) {

@@ -1,6 +1,6 @@
 import request from "supertest";
 
-import { UserModel } from "../../../src/models/UserModel";
+import { UserModel } from "@models/UserModel";
 import { app } from "../../../src/app";
 
 import { fetchResp, Resp } from "../../fetchTypes";
