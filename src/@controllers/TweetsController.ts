@@ -7,18 +7,14 @@ import { TweetModel, TweetModelInterface } from "../@models/TweetModel";
 class TweetsController {
   async index(req: Request, res: Response): Promise<void> {
     try {
-      TweetModel.find({}, (err, tweets) => {
-        if (err) {
-          res.status(500).json({
-            status: "error",
-            errors: err,
-          });
-          return;
-        }
-        res.status(200).json({
-          status: "success",
-          data: tweets,
-        });
+      const tweets = await TweetModel.find({})
+        .populate("user")
+        .sort({ createdAt: "-1" })
+        .exec();
+
+      res.status(200).json({
+        status: "success",
+        data: tweets,
       });
     } catch (error) {
       res.status(500).json({
@@ -32,18 +28,21 @@ class TweetsController {
     try {
       const tweetId = req.params.id;
 
-      TweetModel.findOne({ _id: tweetId }, (err, tweet) => {
-        if (err || !tweet) {
-          res.status(404).json({
-            status: "error",
-            errors: "Tweet has not found",
-          });
-          return;
-        }
-        res.status(200).json({
-          status: "success",
-          data: tweet,
+      const tweet = await TweetModel.findOne({ _id: tweetId })
+        .populate("user")
+        .exec();
+
+      if (!tweet) {
+        res.status(404).json({
+          status: "error",
+          errors: "Tweet has not found",
         });
+        return;
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: tweet,
       });
     } catch (error) {
       res.status(500).json({
@@ -79,19 +78,11 @@ class TweetsController {
         user: user._id,
       };
 
-      TweetModel.create<TweetModelInterface>(data, (err, tweet) => {
-        if (err) {
-          res.status(404).json({
-            status: "error",
-            errors: "Tweet has not found",
-          });
-          return;
-        }
+      const tweet = await TweetModel.create<TweetModelInterface>(data);
 
-        res.status(200).json({
-          status: "success",
-          data: tweet,
-        });
+      res.status(200).json({
+        status: "success",
+        data: await tweet.populate("user").execPopulate(),
       });
     } catch (error) {
       res.status(500).json({
@@ -155,9 +146,9 @@ class TweetsController {
         const tweetId = req.params.id;
         const newText = req.body.text;
 
-        const existedTweet = await TweetModel.findById(tweetId).exec();
+        const tweet = await TweetModel.findById(tweetId).exec();
 
-        if (!existedTweet) {
+        if (!tweet) {
           res.status(404).json({
             status: "error",
             errors: "Tweet has not found",
@@ -165,7 +156,7 @@ class TweetsController {
           return;
         }
 
-        if (String(existedTweet.user) !== String(user._id)) {
+        if (String(tweet.user) !== String(user._id)) {
           res.status(403).json({
             status: "error",
             errors: "Cannot edit tweet created by other person",
@@ -173,15 +164,12 @@ class TweetsController {
           return;
         }
 
-        TweetModel.updateOne(
-          { _id: tweetId },
-          { text: newText },
-          (err, doc) => {
-            res.status(200).json({
-              status: "success",
-            });
-          }
-        );
+        tweet.text = newText;
+        tweet.save();
+
+        res.status(200).json({
+          status: "success",
+        });
       }
     } catch (error) {
       res.status(500).json({
