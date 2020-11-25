@@ -3,6 +3,7 @@
 ## Description
 
 Twitter Clone backend part. </br>
+[Link to client side source code](https://github.com/quinsberry/twitter-clone-client)</br>
 </br>
 
 **Technologies:** NodeJS, MongoDB, Express, Typescript </br>
