@@ -3,11 +3,13 @@ dotenv.config()
 
 import express from 'express'
 
-import { UsersCtrl, TweetsCtrl } from './@controllers'
-import { registerValidations, tweetsValidations } from './@validations'
+import { UsersCtrl } from '@controllers/UsersController'
+import { TweetsCtrl } from '@controllers/TweetsController'
+import { registerValidations } from '@validations/register'
+import { tweetsValidations } from '@validations/tweets'
 
-import './@core/db'
-import { passport } from './@core/passport'
+import '@core/db'
+import { passport } from '@core/passport'
 
 export const app = express()
 

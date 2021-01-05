@@ -2,10 +2,10 @@ import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
 
-import { generateMD5 } from '../@utils/generate-hash'
-import { sendEmail } from '../@utils/sendEmail'
+import { generateMD5 } from '@utils/generate-hash'
+import { sendEmail } from '@utils/sendEmail'
 
-import { UserModel, UserModelInterface, UserDocumentModelInterface } from '../@models/UserModel'
+import { UserModel, UserModelInterface, UserDocumentModelInterface } from '@models/UserModel'
 
 class UsersController {
   async index(req: Request, res: Response): Promise<void> {

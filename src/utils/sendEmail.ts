@@ -1,16 +1,16 @@
-import { mailer } from "../@core/mailer";
-import { SentMessageInfo } from "nodemailer/lib/sendmail-transport";
+import { mailer } from '@core/mailer'
+import { SentMessageInfo } from 'nodemailer/lib/sendmail-transport'
 
 interface SendEmailProps {
-  emailFrom: string;
-  emailTo: string;
-  subject: string;
-  html: string;
+  emailFrom: string
+  emailTo: string
+  subject: string
+  html: string
 }
 
 export const sendEmail = (
   { emailFrom, emailTo, subject, html }: SendEmailProps,
-  callback?: (err: Error | null, info: SentMessageInfo) => void
+  callback?: (err: Error | null, info: SentMessageInfo) => void,
 ) => {
   mailer.sendMail(
     {
@@ -22,10 +22,10 @@ export const sendEmail = (
     callback ||
       function (err: Error | null, info: SentMessageInfo) {
         if (err) {
-          console.log("error: ", err);
+          console.log('error: ', err)
         } else {
-          console.log("info: ", info);
+          console.log('info: ', info)
         }
-      }
-  );
-};
+      },
+  )
+}
